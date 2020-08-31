@@ -30,9 +30,7 @@ def infix_to_postfix(exp):  # code this -> bug
     }
     for i in exp:
         # print(s)
-        if i in '0123456789':
-            postfix += i
-        elif i in '+-*/':  # interesting part
+        if i in '+-*/':  # interesting part
             if s.is_empty():
                 s.push(i)
             else:
@@ -40,7 +38,7 @@ def infix_to_postfix(exp):  # code this -> bug
                     if s.peek() == '(':
                         break
                     else:
-                        if priority.get(s.peek(),-2) < priority.get(i,-2):
+                        if priority.get(s.peek(), -2) < priority.get(i,-2):
                             break
                         else:
                             postfix += s.pop()
@@ -51,6 +49,8 @@ def infix_to_postfix(exp):  # code this -> bug
             while s.peek() != '(':
                 postfix += s.pop()
             s.pop()
+        else:
+            postfix += i
     while not s.is_empty():
         postfix += s.pop()
     return postfix
@@ -87,6 +87,7 @@ def compare(exp):
     print("no prior:", infix_to_postfix_no_prior(exp))
     print("prior:", infix_to_postfix(exp)) # infinite loop
 
+
 """
 Test input
 2+3-1 -> 23+1-
@@ -95,6 +96,6 @@ Test input
 """
 if __name__ == '__main__':
     inp = input('Input expression: ')
-    # compare(inp)
-    print(postfix_cal(inp))
+    compare(inp)
+    # print(postfix_cal(inp))
 
