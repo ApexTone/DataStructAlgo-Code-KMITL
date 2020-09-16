@@ -108,10 +108,10 @@ class LinkedList:
             return -1
         value = self.head.value
         next_node = self.head.next_node
-        self.head.next_node = None
-        self.head = next_node
         if next_node is not None:  # only case that result in None is the list is empty
             next_node.prev_node = None
+            self.head.next_node = None
+            self.head = next_node
         else:
             self.head = self.tail = None
         return value
@@ -122,10 +122,10 @@ class LinkedList:
             return -1
         value = self.tail.value
         prev_node = self.tail.prev_node
-        self.tail.prev_node = None
-        self.tail = prev_node
         if prev_node is not None:  # only case that result in None is the list is empty
             prev_node.next_node = None
+            self.tail.prev_node = None
+            self.tail = prev_node
         else:
             self.head = self.tail = None
         return value
@@ -195,6 +195,13 @@ class LinkedList:
         while not lst.is_empty():
             self.push_back(lst.pop_front())
 
+    def sort(self):
+        lst = LinkedList()
+        while not self.is_empty():
+            lst.add(self.pop_front())
+        while not lst.is_empty():
+            self.push_back(lst.pop_front())
+
     def __str__(self):
         if not self.is_empty():
             buffer = self.head
@@ -260,12 +267,12 @@ if __name__ == '__main__':
     ll.push_back(2)
     ll.push_back(3)
     ll.push_back(4)
-    ll.push_back(5)
     ll.insert(5, 0)
     ll.insert(-999, -6)
     ll.insert(999, 6)
-    print(ll.pop(0))
-    print(ll.pop(ll.size()-1))
+    print(ll)
+    print(ll.pop(0))  # pop_front()
+    print(ll.pop(ll.size()-1))  # pop_back()
     print(ll.pop(ll.size()//2))
     print(ll)
     ll.remove(-5)
@@ -288,4 +295,17 @@ if __name__ == '__main__':
     ll.add(0.25)
     print(ll)
     ll.reverse()
+    print(ll)
+    print('-'*30)
+
+    while not ll.is_empty():
+        ll.pop_front()
+    ll.push_back(-10)
+    ll.push_back(-5)
+    ll.push_back(6)
+    ll.push_back(2)
+    ll.push_back(999)
+    ll.push_back(0.25)
+    print(ll)
+    ll.sort()
     print(ll)
