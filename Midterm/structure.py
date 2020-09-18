@@ -50,7 +50,7 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None
-        self.taik = None
+        self.tail = None
 
     def is_empty(self):
         return self.head is None
