@@ -7,7 +7,11 @@ class Stack:
         self.items.append(data)
 
     def pop(self):
-        return self.items.pop()
+        if not self.is_empty():
+            return self.items.pop()
+        else:
+            print("Empty Stack")
+            return -1
 
     def size(self):
         return len(self.items)
@@ -26,7 +30,11 @@ class Queue:
         self.items.append(data)
 
     def dequeue(self):
-        return self.items.pop(0)
+        if not self.ise_empty():
+            return self.items.pop(0)
+        else:
+            print("Empty Queue")
+            return -1
 
     def size(self):
         return len(self.items)
