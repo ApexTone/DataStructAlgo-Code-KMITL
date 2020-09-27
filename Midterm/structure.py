@@ -222,7 +222,89 @@ class LinkedList:
             return 'Empty'
 
 
-if __name__ == '__main__':
+class DummyLinkedList:
+    def __init__(self):
+        self.header = Node(None)
+        self.trailer = Node(None)
+        self.header.next_node = self.trailer
+        self.trailer.prev_node = self.header
+
+    def is_empty(self):
+        return self.header.next_node is self.trailer or self.trailer.prev_node is self.header
+
+    def size(self):
+        buffer = self.header.next_node
+        count = 0
+        while buffer is not self.trailer:
+            buffer = buffer.next_node
+            count += 1
+        return count
+
+    def node_at(self, pos):
+        buffer = self.header.next_node
+        count = 0
+        while buffer is not self.trailer:
+            if count == pos:
+                return buffer
+            buffer = buffer.next_node
+            count += 1
+        print('Index out of bound')
+        return  # not found
+
+    def push_front(self, value):
+        next_node = self.header.next_node
+        new_node = Node(value, next_node, self.header)
+        self.header.next_node = new_node
+        next_node.prev_node = new_node
+
+    def push_back(self, value):
+        prev_node = self.trailer.prev_node
+        new_node = Node(value, self.trailer, prev_node)
+        self.trailer.prev_node = new_node
+        prev_node.next_node = new_node
+
+    def pop_front(self):
+        to_pop = self.header.next_node
+        if to_pop is self.trailer:
+            print('List is empty')
+            return
+        else:
+            next_node = to_pop.next_node
+            self.header.next_node = next_node
+            next_node.prev_node = self.header
+            return to_pop.value
+
+    def pop_back(self):
+        to_pop = self.trailer.prev_node
+        if to_pop is self.header:
+            print('List is empty')
+            return
+        else:
+            prev_node = to_pop.prev_node
+            self.trailer.prev_node = prev_node
+            prev_node.next_node = self.trailer
+            return to_pop.value
+
+    def __str__(self):
+        if self.is_empty():
+            return 'Empty List'
+        out = ""
+        buffer = self.header.next_node
+        while buffer is not self.trailer:
+            out += str(buffer.value) + ' '
+            buffer = buffer.next_node
+        return out
+
+
+def test_dummy():
+    ll = DummyLinkedList()
+    ll.push_back(2)
+    ll.push_front(0)
+    ll.push_back(5)
+    ll.push_front(-1)
+    print(ll)
+
+def test_list(dummy=False):
     ll = LinkedList()
     ll.insert(555, 0.5)
     ll.push_front(-1)
@@ -242,7 +324,7 @@ if __name__ == '__main__':
     while not ll.is_empty():
         print(ll.pop_back())
     ll.pop_back()
-    print('-'*30)
+    print('-' * 30)
 
     ll.insert(-555, 0.25)
     ll.insert(555, 0.5)
@@ -262,7 +344,7 @@ if __name__ == '__main__':
     while not ll.is_empty():
         print(ll.pop_front())
     ll.pop_front()
-    print('-'*30)
+    print('-' * 30)
 
     ll.pop(0)
     ll.insert(555, 0.5)
@@ -280,8 +362,8 @@ if __name__ == '__main__':
     ll.insert(999, 6)
     print(ll)
     print(ll.pop(0))  # pop_front()
-    print(ll.pop(ll.size()-1))  # pop_back()
-    print(ll.pop(ll.size()//2))
+    print(ll.pop(ll.size() - 1))  # pop_back()
+    print(ll.pop(ll.size() // 2))
     print(ll)
     ll.remove(-5)
     print(ll)
@@ -293,7 +375,7 @@ if __name__ == '__main__':
         ll.remove(ll.node_at(0).value)
         print(ll)
     ll.remove(4)
-    print('-'*30)
+    print('-' * 30)
 
     ll.add(-10)
     ll.add(-5)
@@ -304,7 +386,7 @@ if __name__ == '__main__':
     print(ll)
     ll.reverse()
     print(ll)
-    print('-'*30)
+    print('-' * 30)
 
     while not ll.is_empty():
         ll.pop_front()
@@ -317,3 +399,8 @@ if __name__ == '__main__':
     print(ll)
     ll.sort()
     print(ll)
+
+
+
+if __name__ == '__main__':
+    test_dummy()
