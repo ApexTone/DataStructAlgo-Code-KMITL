@@ -38,7 +38,7 @@ def infix_to_postfix(exp):  # code this -> bug
                     if s.peek() == '(':
                         break
                     else:
-                        if priority.get(s.peek(), -2) < priority.get(i,-2):
+                        if priority.get(s.peek(), -2) < priority.get(i, -2):
                             break
                         else:
                             postfix += s.pop()
@@ -85,7 +85,7 @@ def postfix_cal(exp, is_postfix=False):
 def compare(exp):
     # 1+2*3-(4/5+6)*7
     print("no prior:", infix_to_postfix_no_prior(exp))
-    print("prior:", infix_to_postfix(exp)) # infinite loop
+    print("prior:", infix_to_postfix(exp))  # infinite loop
 
 
 """
@@ -98,4 +98,3 @@ if __name__ == '__main__':
     inp = input('Input expression: ')
     compare(inp)
     # print(postfix_cal(inp))
-

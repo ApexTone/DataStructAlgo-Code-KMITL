@@ -230,7 +230,7 @@ class DummyLinkedList:
         self.trailer.prev_node = self.header
 
     def is_empty(self):
-        return self.header.next_node is self.trailer or self.trailer.prev_node is self.header
+        return self.header.next_node is self.trailer
 
     def size(self):
         buffer = self.header.next_node
@@ -303,6 +303,7 @@ def test_dummy():
     ll.push_back(5)
     ll.push_front(-1)
     print(ll)
+
 
 def test_list(dummy=False):
     ll = LinkedList()
@@ -399,7 +400,6 @@ def test_list(dummy=False):
     print(ll)
     ll.sort()
     print(ll)
-
 
 
 if __name__ == '__main__':
