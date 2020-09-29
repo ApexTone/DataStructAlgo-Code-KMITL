@@ -38,15 +38,19 @@ def paren_matching(line):
         if character in '({[':
             s.push(character)
         elif character in ')}]':
-            buffer = s.pop()
-            if not is_match(character, buffer):
-                print(f'Parenthesis not match: {buffer} {character}')
+            if not s.is_empty():
+                buffer = s.pop()
+                if not is_match(character, buffer):
+                    print(f'Parenthesis not match: {buffer} {character}')
+                    break
+            else:
+                print("Excessive closing parenthesis")
                 break
     else:  # do when loop end without break
         if s.is_empty():
             print('Balanced parenthesis')
         else:
-            print('Parenthesis is not balance')
+            print('Excessive opening parenthesis')
 
 
 def infix_to_postfix(exp):

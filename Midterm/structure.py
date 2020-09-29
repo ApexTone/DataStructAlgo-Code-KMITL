@@ -6,6 +6,13 @@ class Stack:
     def push(self, data):
         self.items.append(data)
 
+    def peek(self):
+        if not self.is_empty():
+            return self.items[-1]
+        else:
+            print("Empty Stack")
+            return -1
+
     def pop(self):
         if not self.is_empty():
             return self.items.pop()
@@ -30,8 +37,15 @@ class Queue:
         self.items.append(data)
 
     def dequeue(self):
-        if not self.ise_empty():
+        if not self.is_empty():
             return self.items.pop(0)
+        else:
+            print("Empty Queue")
+            return -1
+
+    def front(self):
+        if not self.is_empty():
+            return self.items[0]
         else:
             print("Empty Queue")
             return -1
@@ -272,6 +286,8 @@ class DummyLinkedList:
             next_node = to_pop.next_node
             self.header.next_node = next_node
             next_node.prev_node = self.header
+            to_pop.next_node = None
+            to_pop.prev_node = None
             return to_pop.value
 
     def pop_back(self):
@@ -283,6 +299,8 @@ class DummyLinkedList:
             prev_node = to_pop.prev_node
             self.trailer.prev_node = prev_node
             prev_node.next_node = self.trailer
+            to_pop.next_node = None
+            to_pop.prev_node = None
             return to_pop.value
 
     def __str__(self):
