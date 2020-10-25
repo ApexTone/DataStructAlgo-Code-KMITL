@@ -252,7 +252,6 @@ class LinkedList:
             return False
         return True
 
-
     def __str__(self):
         if not self.is_empty():
             buffer = self.head
@@ -352,7 +351,7 @@ def test_dummy():
     print(ll)
 
 
-def test_list(dummy=False):
+def test_list():
     ll = LinkedList()
     ll.insert(555, 0.5)
     ll.push_front(-1)
@@ -450,7 +449,7 @@ def test_list(dummy=False):
 
 
 if __name__ == '__main__':
-    # test_dummy()
+    test_list()
     link1 = LinkedList()
     link1.push_back(1)
     link1.push_back(2)
