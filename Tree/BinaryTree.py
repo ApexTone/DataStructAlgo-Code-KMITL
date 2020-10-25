@@ -1,3 +1,5 @@
+import random
+
 class Node:
     def __init__(self, value, left=None, right=None):
         self.value = value
@@ -178,6 +180,50 @@ class BinaryTree:
             return 0
         return 1 + self.size_rec(start.left) + self.size_rec(start.right)
 
+    def remove(self, key):
+        def find_max(initial):  # for inorder predecessor
+            curr = initial
+            while curr.right is not None:
+                curr = curr.right
+            return curr
+
+        def find_min(initial):  # for inorder successor
+            curr = initial
+            while curr.left is not None:
+                curr = curr.left
+            return curr
+
+        def swap_node(node_a, node_b):
+            temp = node_a.value
+            node_a.value = node_b.value
+            node_b.value = temp
+
+        def delete_helper(value, root):
+            if root is None:  # empty tree
+                return
+            elif value < root.value:  # move to left node
+                root.left = delete_helper(value, root.left)
+            elif value > root.value:  # move to right node
+                root.right = delete_helper(value, root.right)
+            else:  # found deletion node
+                if root.left is None and root.right is None:  # leaf
+                    root = None
+                elif root.left is None or root.right is None:  # node has 1 child
+                    root = root.right if root.left is None else root.left
+                else:  # node has 2 children
+                    predecessor = find_max(root.left)  # find maximum predecessor
+                    swap_node(predecessor, root)  # swap value
+                    root.left = delete_helper(predecessor.value, root.left) # delete to the left (old predecessor)
+            return root
+        self.root = delete_helper(key, self.root)
+        return self.root
+
+    def print_tree_beauty(self, node, level=0):
+        if node is not None:
+            self.print_tree_beauty(node.right, level + 1)
+            print('     ' * level + f"({level if level>0 else 'r'})", node.value)
+            self.print_tree_beauty(node.left, level + 1)
+
 
 if __name__ == '__main__':
     tree = BinaryTree()
@@ -191,8 +237,15 @@ if __name__ == '__main__':
     print(tree.tree_string('postorder'), tree_rec.tree_string('postorder'))
     print(tree.tree_string('bfs'), tree_rec.tree_string('bfs'))
     print(tree.tree_string('rev_bfs'), tree_rec.tree_string('rev_bfs'))
-    for item in lst:
-        print(tree.search(item), tree_rec.search_rec(item))
+
     print(tree.search(123), tree_rec.search_rec(123))
     print(tree.height(tree.root), tree_rec.height(tree_rec.root))
     print(tree.size(), tree_rec.size_rec(tree_rec.root))
+
+    print('-'*30)
+    tree.print_tree_beauty(tree.root)
+    random.shuffle(lst)
+    for item in lst:
+        print(f'removing {item}'.center(30, '-'))
+        tree.remove(item)
+        tree.print_tree_beauty(tree.root)
