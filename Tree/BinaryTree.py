@@ -44,7 +44,7 @@ class BinaryTree:
         # left -> root -> right
         if start_node is not None:
             traversal = self.inorder_traversal(start_node.left, traversal)
-            traversal += str(start_node.value) +' '
+            traversal += str(start_node.value) + ' '
             traversal = self.inorder_traversal(start_node.right, traversal)
         return traversal
 
@@ -212,9 +212,11 @@ class BinaryTree:
                 elif root.left is None or root.right is None:  # node has 1 child
                     root = root.right if root.left is None else root.left
                 else:  # node has 2 children
-                    predecessor = find_max(root.left)  # find maximum predecessor
+                    # find maximum predecessor
+                    predecessor = find_max(root.left)
                     swap_node(predecessor, root)  # swap value
-                    root.left = delete_helper(predecessor.value, root.left) # delete to the left (old predecessor)
+                    # delete to the left (old predecessor)
+                    root.left = delete_helper(predecessor.value, root.left)
             return root
         self.root = delete_helper(key, self.root)
         return self.root
@@ -222,7 +224,8 @@ class BinaryTree:
     def print_tree_beauty(self, node, level=0):
         if node is not None:
             self.print_tree_beauty(node.right, level + 1)
-            print('     ' * level + f"({level if level>0 else 'r'})", node.value)
+            print('     ' * level +
+                  f"({level if level>0 else 'r'})", node.value)
             self.print_tree_beauty(node.left, level + 1)
 
 
