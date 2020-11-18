@@ -1,9 +1,27 @@
 class HashTable:
     def __init__(self, size=50):
-        self.size = abs(size)
+        if size <= 0:
+            print("Size must be more than 0: Change to default size(50)")
+            self.size = 50
+        else:
+            self.size = size
         self.table = []
-        for _ in range(size):  # use separate chaining (use more memory but will make no collision)
+        for _ in range(self.size):  # use separate chaining (use more memory but will make no collision)
             self.table.append([])
+
+    def get_hash(self, key):
+        _magic = 2654435761
+        if type(key) is int:
+            return key*_magic % self.size
+        elif type(key) is str:
+            number = 0
+            for character in key:
+                number += ord(character)
+            return number*_magic % self.size
+        elif type(key) is float:
+            return int(key * _magic) % self.size
+        else:
+            return key*_magic % self.size
 
     def element_size(self):
         size = 0
@@ -14,36 +32,16 @@ class HashTable:
     def load_factor(self):
         return self.element_size()/self.size
 
-    def get_hash(self, key):
-        if type(key) is int:
-            return key*2654435761 % self.size
-        elif type(key) is str:
-            number = 0
-            for character in key:
-                number += ord(character)
-            return number*2654435761 % self.size
-        elif type(key) is float:
-            return int(key * 2654435761) % self.size
-        else:
-            return key*2654435761 % self.size
-
     def insert(self, value):
         self.table[self.get_hash(value)].append(value)
-        '''
-        # TODO: resizing must remove then add all elements again
-        if self.load_factor() > 0.7:  # resize list to create more free space
-            inc = 10
-            for i in range(inc):
-                self.table.append(list())
-            self.size += inc
-        '''
+        # TODO: resizing procedure (Look at Rehashing Grader code)
 
-    def pop(self, value):
+    def pop_value(self, value):
         _, lst = self.search(value)
         if lst is None:
             print("Value don't exist")
             return
-        return lst.pop(lst.index(value))
+        return lst.pop_value(lst.index(value))
 
     def search(self, key):
         index = self.get_hash(key)
@@ -73,9 +71,9 @@ if __name__ == '__main__':
     for key in key_lst:
         print(hash_table.search(key)[0], end=' ')
     print()
-    print(hash_table.pop(365))
-    print(hash_table.pop('abc'))
-    print(hash_table.pop(3.14159))
+    print(hash_table.pop_value(365))
+    print(hash_table.pop_value('abc'))
+    print(hash_table.pop_value(3.14159))
     hash_table.insert(3.9415)
     print(hash_table)
     print(hash_table.element_size())
