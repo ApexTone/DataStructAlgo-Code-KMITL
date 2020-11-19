@@ -69,7 +69,7 @@ class Graph:
                 min_index = vertex
         return min_index
 
-    def dijkstra(self, start=0):
+    def dijkstra(self, start=0):  # can't process negative edge
         dist = [sys.maxsize] * len(self.graph)
         dist[start] = 0
         visited = set()
@@ -87,6 +87,23 @@ class Graph:
             print(vertex, dist[vertex])
         print('-'*30)
 
+    def floyd_warshall(self):
+        dist = self.graph.copy()
+        for i in range(len(dist)):
+            for j in range(len(dist)):
+                if dist[i][j] == 0:
+                    dist[i][j] = sys.maxsize
+        for i in range(len(dist)):
+            dist[i][i] = 0
+
+        for k in range(len(self.graph)):
+            for i in range(len(self.graph)):
+                for j in range(len(self.graph)):
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+        for row in range(len(dist)):
+            print(dist[row])
+        return dist
+
 
 if __name__ == '__main__':
     g = Graph(9)
@@ -101,3 +118,9 @@ if __name__ == '__main__':
                [0, 0, 2, 0, 0, 0, 6, 7, 0]
                ]
     g.dijkstra(0)
+
+    g.graph = [[0, 0, -2, 0],
+                [4, 0, 3, 0],
+                [0, 0, 0, 2],
+                [0, -1, 0, 0]]
+    g.floyd_warshall()
